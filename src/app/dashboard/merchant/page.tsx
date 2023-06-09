@@ -53,6 +53,7 @@ export default function Merchant() {
   }
 
   async function handleAddCategory() {
+    //@ts-ignore
     const value = categoriesRef?.current?.input?.value;
     if (value) {
       try {
@@ -68,6 +69,7 @@ export default function Merchant() {
     }
   }
   async function handleAddSubCategory() {
+    //@ts-ignore
     const value = subCategoriesRef?.current?.input?.value;
     if (value) {
       try {
@@ -83,7 +85,8 @@ export default function Merchant() {
     }
   }
   async function handleAddTags() {
-    const value = tagsRef?.current?.input?.value;
+    //@ts-ignore
+    const value = tagsRef?.current?.input.value;
     if (value) {
       try {
         const res = await addTags({ code: "Rywards@123", tag: value });

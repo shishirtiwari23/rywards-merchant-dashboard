@@ -46,7 +46,8 @@ export default function Statistics() {
                   .join(" ")}
                 bordered={false}
               >
-                <Title level={3}> {stats[key]}</Title>
+                {/* @ts-ignore */}
+                <Title level={3}> {stats?.[key]}</Title>
               </Card>
             </Col>
           );
