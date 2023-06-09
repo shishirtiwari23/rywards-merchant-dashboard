@@ -1,5 +1,6 @@
 "use client";
 import { getStatistics } from "@/utils/api/statistics";
+import { useCurrentContext } from "@/utils/context/CurrentContext";
 import { Card, Col, Row, Spin, Tooltip, Typography } from "antd";
 import React, { useEffect } from "react";
 
@@ -7,16 +8,23 @@ const { Title } = Typography;
 
 export default function Statistics() {
   const [stats, setStats] = React.useState({});
+  const { isUserVerified, code } = useCurrentContext();
+
   const [isLoading, setIsLoading] = React.useState(false);
   useEffect(() => {
     async function getStatisticsFromBackend() {
       setIsLoading(true);
-      const res = await getStatistics({ code: "Rywards@123" });
+      const res = await getStatistics({ code });
       setStats(res.data);
       setIsLoading(false);
     }
     getStatisticsFromBackend();
   }, []);
+
+  if (!isUserVerified) {
+    return <div>Not Authorized</div>;
+  }
+
   if (isLoading) {
     return (
       <div className="min-h-[95vh] flex justify-center items-center">
@@ -24,6 +32,7 @@ export default function Statistics() {
       </div>
     );
   }
+
   return (
     <div>
       <Row gutter={16}>

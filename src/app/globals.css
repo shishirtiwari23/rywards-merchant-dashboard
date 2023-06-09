@@ -19,7 +19,8 @@ body {
   background-color: rgb(var(--background-rgb));
 }
 
-[type="submit"] {
+[type="submit"],
+.dashboard-home .ant-btn {
   background-color: #1677ff;
 }
 

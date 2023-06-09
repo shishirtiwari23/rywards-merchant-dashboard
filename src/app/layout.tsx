@@ -1,3 +1,6 @@
+import  {
+  CurrentContextProvider,
+} from "@/utils/context/CurrentContext";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -16,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex min-h-screen flex-col items-center justify-between">
-          {children}
-        </div>
+        <CurrentContextProvider>
+          <div className="flex min-h-screen flex-col items-center justify-between">
+            {children}
+          </div>{" "}
+        </CurrentContextProvider>
       </body>
     </html>
   );

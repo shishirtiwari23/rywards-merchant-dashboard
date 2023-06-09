@@ -8,6 +8,7 @@ import {
   getSubCategories,
   getTags,
 } from "@/utils/api/statistics";
+import { useCurrentContext } from "@/utils/context/CurrentContext";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -28,6 +29,7 @@ import React, { useEffect, useRef, useState } from "react";
 export default function Merchant() {
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
+  const { isUserVerified, code } = useCurrentContext();
 
   const [categoriesOptions, setCategoriesOptions] = useState([]);
   const [subCategoriesOptions, setSubCategoriesOptions] = useState([]);
@@ -41,6 +43,7 @@ export default function Merchant() {
   async function handleFormSubmit(formData: any) {
     const fieldToBeAppened = {
       merchantType: "Normal",
+      code,
     };
     const data = { ...formData, ...fieldToBeAppened };
     try {
@@ -58,13 +61,13 @@ export default function Merchant() {
     if (value) {
       try {
         const res = await addCategory({
-          code: "Rywards@123",
+          code,
           category: value,
         });
         setCategoriesOptions(res.data);
         messageApi.success("Category added successfully");
       } catch (error) {
-        messageApi.error("Error while fetching categories");
+        messageApi.error("Error while Adding categories");
       }
     }
   }
@@ -74,13 +77,13 @@ export default function Merchant() {
     if (value) {
       try {
         const res = await addSubCategory({
-          code: "Rywards@123",
+          code,
           subCategory: value,
         });
         setSubCategoriesOptions(res.data);
         messageApi.success("Sub Category added successfully");
       } catch (error) {
-        messageApi.error("Error while fetching sub categories");
+        messageApi.error("Error while Adding sub categories");
       }
     }
   }
@@ -89,11 +92,11 @@ export default function Merchant() {
     const value = tagsRef?.current?.input.value;
     if (value) {
       try {
-        const res = await addTags({ code: "Rywards@123", tag: value });
+        const res = await addTags({ code, tag: value });
         setTagsOptions(res.data);
         messageApi.success("Tag added successfully");
       } catch (error) {
-        messageApi.error("Error while fetching tags");
+        messageApi.error("Error while Adding tags");
       }
     }
   }
@@ -127,6 +130,10 @@ export default function Merchant() {
     getSubCategoriesFromBackend();
     getTagsFromBackend();
   }, []);
+
+  if (!isUserVerified) {
+    return <div>Not Authorized</div>;
+  }
 
   return (
     <div>
@@ -382,7 +389,6 @@ export default function Merchant() {
             </Form.Item>
           </Col>
         </Row>
-        <SectionHeader title="Other Details" />
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item
@@ -393,15 +399,6 @@ export default function Merchant() {
               ]}
             >
               <Input placeholder="Enter Coupon Description" />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              label="Code"
-              name="code"
-              rules={[{ required: true, message: "Code is required" }]}
-            >
-              <Input.Password placeholder="Enter Secret Code" />
             </Form.Item>
           </Col>
         </Row>

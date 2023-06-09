@@ -3,6 +3,7 @@ import axios from "axios";
 const version = "v1";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URI || "http://localhost:8000";
+export const tempCode = process.env.NEXT_PUBLIC_TEMP_CODE;
 
 const API_URL = `${BASE_URL}/api/${version}`;
 
