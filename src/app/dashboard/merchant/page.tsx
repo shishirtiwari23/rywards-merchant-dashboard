@@ -104,7 +104,7 @@ export default function Merchant() {
   useEffect(() => {
     async function getCategoriesFromBackend() {
       try {
-        const res = await getCategories({ code: "Rywards@123" });
+        const res = await getCategories({ code });
         setCategoriesOptions(res.data);
       } catch (error) {
         messageApi.error("Error while fetching categories");
@@ -112,7 +112,7 @@ export default function Merchant() {
     }
     async function getSubCategoriesFromBackend() {
       try {
-        const res = await getSubCategories({ code: "Rywards@123" });
+        const res = await getSubCategories({ code });
         setSubCategoriesOptions(res.data);
       } catch (error) {
         messageApi.error("Error while fetching sub categories");
@@ -120,7 +120,7 @@ export default function Merchant() {
     }
     async function getTagsFromBackend() {
       try {
-        const res = await getTags({ code: "Rywards@123" });
+        const res = await getTags({ code });
         setTagsOptions(res.data);
       } catch (error) {
         messageApi.error("Error while fetching tags");
